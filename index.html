@@ -1,0 +1,2655 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AECID Prep-Master Ultra Pro | Francisco Ballovera 2026</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary:#8e181b;
+      --primary2:#b72226;
+      --secondary:#1a252f;
+      --gold:#b38e5d;
+      --success:#27ae60;
+      --danger:#dc3545;
+      --warning:#f39c12;
+      --blue:#2c6fbb;
+      --bg:linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%);
+      --white:#ffffff;
+      --soft:#f8f9fa;
+      --text:#263747;
+      --shadow:0 18px 45px rgba(0,0,0,.12);
+    }
+
+    * {
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body {
+      font-family:'Montserrat',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    header {
+      background:
+        radial-gradient(circle at 20% 20%,rgba(179,142,93,.28),transparent 25%),
+        radial-gradient(circle at 80% 5%,rgba(142,24,27,.32),transparent 30%),
+        linear-gradient(135deg,var(--secondary),#080d12);
+      color:white;
+      padding:2.8rem 1rem 4.4rem;
+      text-align:center;
+      border-bottom:5px solid var(--gold);
+      position:relative;
+      overflow:hidden;
+    }
+
+    header::after {
+      content:"";
+      position:absolute;
+      inset:-50%;
+      background:linear-gradient(120deg,transparent,rgba(255,255,255,.10),transparent);
+      animation:shine 8s infinite linear;
+    }
+
+    header > * {
+      position:relative;
+      z-index:1;
+    }
+
+    header h1 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2rem,5vw,3.6rem);
+      letter-spacing:1px;
+    }
+
+    header p {
+      margin-top:.5rem;
+      opacity:.86;
+    }
+
+    .exam-date {
+      display:inline-flex;
+      margin-top:1.1rem;
+      background:rgba(255,255,255,.12);
+      padding:.75rem 1.1rem;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.20);
+      font-weight:800;
+      gap:.5rem;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:center;
+      backdrop-filter:blur(10px);
+    }
+
+    .container {
+      max-width:1200px;
+      margin:-48px auto 50px;
+      padding:0 1rem;
+      position:relative;
+      z-index:2;
+    }
+
+    .dashboard {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(175px,1fr));
+      gap:1rem;
+      margin-bottom:1.6rem;
+    }
+
+    .stat {
+      background:rgba(255,255,255,.94);
+      padding:1.25rem;
+      border-radius:20px;
+      text-align:center;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,.75);
+      transition:.25s;
+    }
+
+    .stat:hover {
+      transform:translateY(-5px);
+      border-color:var(--gold);
+    }
+
+    .stat i {
+      color:var(--gold);
+      font-size:1.7rem;
+      margin-bottom:.45rem;
+    }
+
+    .stat strong {
+      display:block;
+      color:var(--primary);
+      font-size:1.9rem;
+      font-weight:900;
+    }
+
+    .nav {
+      display:flex;
+      gap:.55rem;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-bottom:1.4rem;
+    }
+
+    .nav button,
+    .btn {
+      border:none;
+      border-radius:999px;
+      padding:.78rem 1.05rem;
+      background:white;
+      color:var(--secondary);
+      font-family:'Montserrat',sans-serif;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:0 6px 16px rgba(0,0,0,.08);
+      transition:.25s;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.45rem;
+    }
+
+    .nav button:hover,
+    .btn:hover {
+      transform:translateY(-2px);
+    }
+
+    .nav button.active,
+    .btn.primary {
+      background:var(--primary);
+      color:white;
+    }
+
+    .btn.gold { background:var(--gold); color:white; }
+    .btn.green { background:var(--success); color:white; }
+    .btn.dark { background:var(--secondary); color:white; }
+    .btn.orange { background:var(--warning); color:#141414; }
+    .btn.blue { background:var(--blue); color:white; }
+
+    .panel {
+      display:none;
+      background:white;
+      border-radius:26px;
+      padding:2rem;
+      box-shadow:var(--shadow);
+      margin-bottom:1.4rem;
+      animation:fadeIn .35s ease;
+    }
+
+    .panel.active {
+      display:block;
+    }
+
+    .title {
+      display:flex;
+      align-items:center;
+      gap:.7rem;
+      margin-bottom:1rem;
+      color:var(--secondary);
+      flex-wrap:wrap;
+    }
+
+    .title i {
+      color:var(--primary);
+    }
+
+    .info {
+      background:#fff8e8;
+      border-left:5px solid var(--gold);
+      padding:1rem;
+      border-radius:14px;
+      line-height:1.65;
+      margin-bottom:1rem;
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:1rem;
+    }
+
+    .box {
+      background:var(--soft);
+      border-left:5px solid var(--gold);
+      border-radius:18px;
+      padding:1rem;
+      line-height:1.6;
+    }
+
+    .cardbox {
+      perspective:1000px;
+      height:320px;
+      margin:1rem 0;
+    }
+
+    .cardinner {
+      position:relative;
+      width:100%;
+      height:100%;
+      transition:transform .65s;
+      transform-style:preserve-3d;
+      cursor:pointer;
+    }
+
+    .cardinner.flipped {
+      transform:rotateY(180deg);
+    }
+
+    .front,
+    .back {
+      position:absolute;
+      width:100%;
+      height:100%;
+      backface-visibility:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:2rem;
+      text-align:center;
+      border-radius:24px;
+      font-size:clamp(1.15rem,3vw,1.55rem);
+      font-weight:900;
+      line-height:1.5;
+      box-shadow:0 20px 45px rgba(0,0,0,.18);
+    }
+
+    .front {
+      background:linear-gradient(135deg,var(--secondary),#080d12);
+      color:white;
+    }
+
+    .back {
+      background:linear-gradient(135deg,var(--gold),#8f6f43);
+      color:white;
+      transform:rotateY(180deg);
+    }
+
+    .controls {
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:.7rem;
+      margin-top:1rem;
+    }
+
+    .tag {
+      display:inline-block;
+      background:var(--gold);
+      color:white;
+      border-radius:999px;
+      padding:.45rem .9rem;
+      font-size:.76rem;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+
+    .question-head {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:.8rem;
+      flex-wrap:wrap;
+      margin-bottom:1rem;
+    }
+
+    .qtitle {
+      font-size:1.25rem;
+      line-height:1.55;
+      margin-bottom:1rem;
+      color:var(--secondary);
+    }
+
+    .option {
+      display:block;
+      width:100%;
+      margin:.6rem 0;
+      padding:1.05rem;
+      border:2px solid #eee;
+      border-radius:15px;
+      text-align:left;
+      background:white;
+      cursor:pointer;
+      font-family:'Montserrat',sans-serif;
+      font-weight:700;
+      font-size:1rem;
+      transition:.22s;
+    }
+
+    .option:hover {
+      border-color:var(--primary);
+      background:#fff5f5;
+    }
+
+    .option.correct {
+      background:#d4edda!important;
+      border-color:#28a745!important;
+      color:#155724;
+    }
+
+    .option.wrong {
+      background:#f8d7da!important;
+      border-color:#dc3545!important;
+      color:#721c24;
+    }
+
+    .option.disabled {
+      pointer-events:none;
+      opacity:.92;
+    }
+
+    .feedback {
+      display:none;
+      margin-top:1rem;
+      padding:1rem;
+      border-radius:14px;
+      line-height:1.65;
+    }
+
+    .feedback.good {
+      display:block;
+      background:#d4edda;
+      border-left:5px solid #28a745;
+      color:#155724;
+    }
+
+    .feedback.bad {
+      display:block;
+      background:#f8d7da;
+      border-left:5px solid #dc3545;
+      color:#721c24;
+    }
+
+    .progress {
+      height:13px;
+      background:#e6eaed;
+      border-radius:999px;
+      overflow:hidden;
+      margin:1rem 0;
+    }
+
+    .bar {
+      height:100%;
+      width:0;
+      background:linear-gradient(90deg,var(--primary),var(--gold));
+      transition:.3s;
+    }
+
+    .timer {
+      background:#fff0f0;
+      color:var(--primary);
+      padding:.65rem .9rem;
+      border-radius:999px;
+      font-weight:900;
+    }
+
+    .timer.danger {
+      background:#ffe0e0;
+      color:var(--danger);
+      animation:pulse 1s infinite;
+    }
+
+    .result {
+      text-align:center;
+      padding:2rem;
+      border-radius:24px;
+      background:linear-gradient(135deg,#fff,#f4f6f7);
+      border:1px solid #e8e8e8;
+    }
+
+    .score {
+      font-size:3.4rem;
+      font-weight:900;
+      color:var(--primary);
+      margin:.5rem 0;
+    }
+
+    input,
+    textarea {
+      width:100%;
+      padding:.8rem;
+      border:2px solid #eee;
+      border-radius:12px;
+      font-family:'Montserrat',sans-serif;
+      font-size:1rem;
+    }
+
+    textarea {
+      min-height:135px;
+      resize:vertical;
+    }
+
+    .field {
+      margin:.75rem 0;
+    }
+
+    .field label {
+      display:block;
+      font-weight:900;
+      color:#666;
+      font-size:.82rem;
+      margin-bottom:.35rem;
+      text-transform:uppercase;
+      letter-spacing:.8px;
+    }
+
+    .preview {
+      background:white;
+      border:1px solid #ddd;
+      border-radius:12px;
+      padding:1rem;
+      margin-top:1rem;
+      font-family:'Courier New',monospace;
+      white-space:pre-wrap;
+      line-height:1.7;
+    }
+
+    .typing-target {
+      background:#f8f9fa;
+      border-left:5px solid var(--blue);
+      padding:1rem;
+      border-radius:14px;
+      line-height:1.7;
+      margin-bottom:1rem;
+    }
+
+    .mistake {
+      background:#fff6f6;
+      border-left:5px solid var(--danger);
+      border-radius:14px;
+      padding:1rem;
+      margin:.8rem 0;
+      line-height:1.6;
+    }
+
+    table {
+      width:100%;
+      border-collapse:collapse;
+      background:white;
+      border-radius:16px;
+      overflow:hidden;
+    }
+
+    th,
+    td {
+      padding:.9rem;
+      border-bottom:1px solid #eee;
+      text-align:left;
+      vertical-align:top;
+    }
+
+    th {
+      background:var(--secondary);
+      color:white;
+    }
+
+    footer {
+      text-align:center;
+      padding:2rem 1rem;
+      color:#69747d;
+    }
+
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateY(18px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+
+    @keyframes shine {
+      from { transform:translateX(-20%) rotate(15deg); }
+      to { transform:translateX(20%) rotate(15deg); }
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity:1; }
+      50% { opacity:.55; }
+    }
+
+    @media(max-width:700px) {
+      header { padding:2rem 1rem 3.8rem; }
+      .panel { padding:1.15rem; }
+      .controls { flex-direction:column; }
+      .btn { width:100%; }
+      .dashboard { grid-template-columns:1fr; }
+      .cardbox { height:285px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>AECID PREP-MASTER ULTRA PRO</h1>
+    <p>Simulador profesional de alto rendimiento · Francisco Ballovera Estrada</p>
+    <div class="exam-date">
+      <i class="fa-solid fa-calendar-check"></i>
+      Examen: 28 de mayo · 10:00 · Centro Cultural de España en Malabo
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="dashboard">
+      <div class="stat"><i class="fas fa-graduation-cap"></i><strong id="stProgress">0%</strong><small>Progreso</small></div>
+      <div class="stat"><i class="fas fa-check-double"></i><strong id="stCorrect">0</strong><small>Aciertos</small></div>
+      <div class="stat"><i class="fas fa-xmark-circle"></i><strong id="stErrors">0</strong><small>Errores</small></div>
+      <div class="stat"><i class="fas fa-file-signature"></i><strong id="stDocs">0</strong><small>Documentos</small></div>
+      <div class="stat"><i class="fas fa-keyboard"></i><strong id="stWpm">0</strong><small>PPM</small></div>
+      <div class="stat"><i class="fas fa-medal"></i><strong id="stRank">Novato</strong><small>Rango</small></div>
+    </section>
+
+    <nav class="nav">
+      <button class="active" onclick="showPanel('flash', this)">Flashcards</button>
+      <button onclick="showPanel('practice', this)">Entrenamiento 120</button>
+      <button onclick="showPanel('exam', this)">Examen Real</button>
+      <button onclick="showPanel('docs', this)">Redacción</button>
+      <button onclick="showPanel('typing', this)">Dactilo</button>
+      <button onclick="showPanel('errors', this)">Errores</button>
+      <button onclick="showPanel('dossier', this)">Dossier Oro</button>
+      <button onclick="showPanel('plan', this)">Plan</button>
+    </nav>
+
+    <section id="flash" class="panel active">
+      <h2 class="title"><i class="fas fa-bolt"></i> Flashcards institucionales</h2>
+      <div class="info">ESPACIO para girar. Flechas izquierda/derecha para cambiar. Ideal para memorizar definiciones rápidas.</div>
+      <div class="cardbox" onclick="flipCard()">
+        <div class="cardinner" id="flashCard">
+          <div class="front" id="flashQ"></div>
+          <div class="back" id="flashA"></div>
+        </div>
+      </div>
+      <p style="text-align:center;color:#777;">Tarjeta <span id="flashCounter">1</span> / <span id="flashTotal"></span></p>
+      <div class="controls">
+        <button class="btn dark" onclick="previousCard()">Anterior</button>
+        <button class="btn gold" onclick="nextCard()">Siguiente</button>
+        <button class="btn green" onclick="shuffleCards()">Mezclar</button>
+        <button class="btn orange" onclick="markHard()">Difícil</button>
+      </div>
+    </section>
+
+    <section id="practice" class="panel">
+      <h2 class="title"><i class="fas fa-dumbbell"></i> Entrenamiento guiado · 120 preguntas</h2>
+      <div class="info">Filtra por bloque o usa todas las preguntas. Las explicaciones aparecen al instante.</div>
+      <div class="controls" id="filterBox"></div>
+      <div class="progress"><div class="bar" id="practiceBar"></div></div>
+      <div id="practiceBox"></div>
+      <div class="controls">
+        <button class="btn dark" onclick="restartPractice()">Reiniciar</button>
+        <button class="btn gold" onclick="nextPractice()">Siguiente</button>
+      </div>
+    </section>
+
+    <section id="exam" class="panel">
+      <h2 class="title"><i class="fas fa-clock"></i> Simulador real con penalización</h2>
+      <div class="info">30, 60 o 90 preguntas. Penalización: error resta 1/3. Puedes dejar preguntas en blanco.</div>
+      <div id="examStart">
+        <div class="controls">
+          <button class="btn primary" onclick="setExam(30, 30)">Rápido 30</button>
+          <button class="btn primary" onclick="setExam(60, 60)">Bloque 60</button>
+          <button class="btn primary" onclick="setExam(90, 90)">Completo 90</button>
+          <button class="btn orange" onclick="setWrongExam()">Fallos</button>
+        </div>
+        <div class="grid">
+          <div class="box"><strong>Duración:</strong><br><span id="examDuration">30 minutos</span></div>
+          <div class="box"><strong>Preguntas:</strong><br><span id="examQuestions">30</span></div>
+          <div class="box"><strong>Meta:</strong><br>70% o más</div>
+          <div class="box"><strong>Consejo:</strong><br>1 minuto por pregunta</div>
+        </div>
+        <div class="controls"><button class="btn green" onclick="startExam()">Comenzar simulacro</button></div>
+      </div>
+      <div id="examBox" style="display:none;"></div>
+    </section>
+
+    <section id="docs" class="panel">
+      <h2 class="title"><i class="fas fa-file-signature"></i> Redacción documental</h2>
+      <div class="info">Entrena oficios, notas internas, actas y memorándums. El sistema evalúa estructura, claridad y vocabulario administrativo.</div>
+      <div class="controls">
+        <button class="btn primary" onclick="setDocType('OFICIO ADMINISTRATIVO')">Oficio</button>
+        <button class="btn primary" onclick="setDocType('NOTA INTERNA')">Nota</button>
+        <button class="btn primary" onclick="setDocType('ACTA DE REUNIÓN')">Acta</button>
+        <button class="btn primary" onclick="setDocType('MEMORÁNDUM')">Memorándum</button>
+      </div>
+      <div class="box">
+        <h3 id="docTitle">OFICIO ADMINISTRATIVO</h3>
+        <div class="field"><label>Destinatario</label><input id="docDest" placeholder="Director de la OTC Malabo"></div>
+        <div class="field"><label>Asunto</label><input id="docSubject" placeholder="Solicitud de material"></div>
+        <div class="field"><label>Referencia</label><input id="docRef" placeholder="OFI/2026/001"></div>
+        <div class="field"><label>Cuerpo</label><textarea id="docBody" placeholder="Redacte aquí el cuerpo del documento..."></textarea></div>
+        <div class="controls">
+          <button class="btn blue" onclick="previewDoc()">Previsualizar</button>
+          <button class="btn green" onclick="evaluateDoc()">Evaluar</button>
+          <button class="btn gold" onclick="exampleDoc()">Ejemplo</button>
+        </div>
+        <div id="docPreview" class="preview" style="display:none;"></div>
+        <div id="docEval"></div>
+      </div>
+    </section>
+
+    <section id="typing" class="panel">
+      <h2 class="title"><i class="fas fa-keyboard"></i> Dactilografía</h2>
+      <div class="info">Copia el texto exactamente. Se mide velocidad aproximada y precisión.</div>
+      <div class="typing-target" id="typingTarget"></div>
+      <textarea id="typingInput" disabled placeholder="Pulsa iniciar y escribe aquí..."></textarea>
+      <div class="controls">
+        <button class="btn green" onclick="startTyping()">Iniciar</button>
+        <button class="btn dark" onclick="resetTyping()">Reiniciar</button>
+        <button class="btn gold" onclick="newTyping()">Nuevo texto</button>
+      </div>
+      <div id="typingResult" class="result" style="display:none;"></div>
+    </section>
+
+    <section id="errors" class="panel">
+      <h2 class="title"><i class="fas fa-triangle-exclamation"></i> Revisión inteligente de errores</h2>
+      <div class="info">Aquí aparece lo que Francisco debe repasar. Repasar errores vale más que repetir sin pensar.</div>
+      <div id="errorBox"></div>
+      <div class="controls">
+        <button class="btn orange" onclick="clearErrors()">Borrar errores</button>
+        <button class="btn green" onclick="downloadErrors()">Descargar TXT</button>
+      </div>
+    </section>
+
+    <section id="dossier" class="panel">
+      <h2 class="title"><i class="fas fa-crown"></i> Dossier Oro</h2>
+      <div class="grid" id="dossierGrid"></div>
+    </section>
+
+    <section id="plan" class="panel">
+      <h2 class="title"><i class="fas fa-calendar-days"></i> Plan de choque hasta el 28 de mayo</h2>
+      <table>
+        <thead><tr><th>Periodo</th><th>Objetivo</th><th>Trabajo recomendado</th></tr></thead>
+        <tbody>
+          <tr><td>15–18 mayo</td><td>Identidad institucional</td><td>Flashcards + 60 preguntas + Dossier Oro.</td></tr>
+          <tr><td>19–22 mayo</td><td>Administración y ofimática</td><td>Bloques + redacción + dactilo 10 minutos.</td></tr>
+          <tr><td>23–25 mayo</td><td>Simulacros completos</td><td>1 examen real diario + revisión de errores.</td></tr>
+          <tr><td>26–27 mayo</td><td>Repaso ligero</td><td>Errores, definiciones, descanso. No saturarse.</td></tr>
+          <tr><td>28 mayo</td><td>Examen</td><td>Llegar antes de 09:00, documento personal, bolígrafo y calma.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>AECID Prep-Master Ultra Pro · Simulador privado de preparación · Francisco Ballovera 2026</footer>
+
+  <script>
+    const database = [
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Cuál es la norma suprema del ordenamiento jurídico español?",
+            "options": [
+                  "La Constitución Española de 1978",
+                  "El Código Civil",
+                  "La Ley de Presupuestos",
+                  "El Reglamento del Congreso"
+            ],
+            "correct": 0,
+            "exp": "La Constitución de 1978 está por encima del resto de normas."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Cuál es la forma política del Estado español?",
+            "options": [
+                  "Monarquía Parlamentaria",
+                  "República federal",
+                  "Monarquía absoluta",
+                  "Estado presidencialista"
+            ],
+            "correct": 0,
+            "exp": "España es una Monarquía Parlamentaria."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Quién es el Jefe del Estado español?",
+            "options": [
+                  "El Rey",
+                  "El Presidente del Gobierno",
+                  "El Presidente del Congreso",
+                  "El Ministro de Exteriores"
+            ],
+            "correct": 0,
+            "exp": "El Rey representa al Estado español."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Quién ejerce el Poder Ejecutivo en España?",
+            "options": [
+                  "El Gobierno",
+                  "El Senado",
+                  "El Tribunal Constitucional",
+                  "El Defensor del Pueblo"
+            ],
+            "correct": 0,
+            "exp": "El Gobierno ejerce la función ejecutiva."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "Las Cortes Generales están formadas por:",
+            "options": [
+                  "Congreso y Senado",
+                  "Gobierno y Rey",
+                  "Tribunal Supremo y Constitucional",
+                  "Ministerios y Delegaciones"
+            ],
+            "correct": 0,
+            "exp": "Las Cortes Generales son bicamerales."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Cuántas Comunidades Autónomas tiene España?",
+            "options": [
+                  "17",
+                  "15",
+                  "19",
+                  "21"
+            ],
+            "correct": 0,
+            "exp": "España tiene 17 Comunidades Autónomas."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Cuáles son las dos Ciudades Autónomas españolas?",
+            "options": [
+                  "Ceuta y Melilla",
+                  "Madrid y Barcelona",
+                  "Canarias y Baleares",
+                  "Toledo y Segovia"
+            ],
+            "correct": 0,
+            "exp": "Ceuta y Melilla son ciudades autónomas."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Qué institución controla la constitucionalidad de las leyes?",
+            "options": [
+                  "Tribunal Constitucional",
+                  "Tribunal Supremo",
+                  "Consejo de Ministros",
+                  "Congreso"
+            ],
+            "correct": 0,
+            "exp": "El Tribunal Constitucional interpreta la Constitución."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Qué cámara representa principalmente al pueblo español?",
+            "options": [
+                  "Congreso de los Diputados",
+                  "Senado",
+                  "Consejo de Estado",
+                  "Tribunal de Cuentas"
+            ],
+            "correct": 0,
+            "exp": "El Congreso representa directamente al pueblo español."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Qué cámara se considera de representación territorial?",
+            "options": [
+                  "Senado",
+                  "Congreso",
+                  "Consejo General del Poder Judicial",
+                  "Defensor del Pueblo"
+            ],
+            "correct": 0,
+            "exp": "El Senado es cámara de representación territorial."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Quién nombra formalmente al Presidente del Gobierno?",
+            "options": [
+                  "El Rey",
+                  "El Senado",
+                  "El Defensor del Pueblo",
+                  "La Comisión Europea"
+            ],
+            "correct": 0,
+            "exp": "El nombramiento formal corresponde al Rey."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Qué principio debe guiar la actuación administrativa?",
+            "options": [
+                  "Servicio objetivo al interés general",
+                  "Interés personal",
+                  "Favoritismo",
+                  "Improvisación"
+            ],
+            "correct": 0,
+            "exp": "La Administración sirve los intereses generales."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Qué valores superiores recoge la Constitución?",
+            "options": [
+                  "Libertad, justicia, igualdad y pluralismo político",
+                  "Silencio, secreto y obediencia absoluta",
+                  "Riqueza, mercado y privilegio",
+                  "Jerarquía privada"
+            ],
+            "correct": 0,
+            "exp": "Son valores superiores del ordenamiento jurídico."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Qué es el Gobierno?",
+            "options": [
+                  "Órgano que dirige la política interior y exterior",
+                  "Órgano judicial",
+                  "Órgano municipal exclusivamente",
+                  "Entidad privada"
+            ],
+            "correct": 0,
+            "exp": "El Gobierno dirige la política y la Administración."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Qué hace un Ministerio?",
+            "options": [
+                  "Gestiona áreas concretas de la acción del Gobierno",
+                  "Dicta sentencias",
+                  "Aprueba la Constitución",
+                  "Sustituye al Parlamento"
+            ],
+            "correct": 0,
+            "exp": "Cada Ministerio gestiona un sector administrativo."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Qué significa Estado de Derecho?",
+            "options": [
+                  "Los poderes públicos están sometidos a la ley",
+                  "El Gobierno puede actuar sin normas",
+                  "Solo manda la policía",
+                  "No existen tribunales"
+            ],
+            "correct": 0,
+            "exp": "El Estado de Derecho implica sometimiento a la ley."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Qué significa separación de poderes?",
+            "options": [
+                  "Diferenciar funciones legislativa, ejecutiva y judicial",
+                  "Unir todos los poderes en una persona",
+                  "Eliminar el Parlamento",
+                  "Privatizar la justicia"
+            ],
+            "correct": 0,
+            "exp": "Es una garantía democrática básica."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Qué órgano aprueba las leyes estatales?",
+            "options": [
+                  "Las Cortes Generales",
+                  "La AECID",
+                  "La Embajada",
+                  "La OTC"
+            ],
+            "correct": 0,
+            "exp": "Las Cortes ejercen la potestad legislativa."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Quién representa a España en las relaciones internacionales de alto nivel?",
+            "options": [
+                  "El Rey, según la Constitución",
+                  "El alcalde de Madrid",
+                  "Un presidente autonómico",
+                  "Un auxiliar administrativo"
+            ],
+            "correct": 0,
+            "exp": "El Rey ostenta la alta representación del Estado."
+      },
+      {
+            "cat": "Instituciones españolas",
+            "q": "¿Qué debe evitar Francisco en respuestas institucionales?",
+            "options": [
+                  "Opiniones políticas personales",
+                  "Lenguaje claro",
+                  "Neutralidad",
+                  "Referencias a procedimientos"
+            ],
+            "correct": 0,
+            "exp": "Debe responder con neutralidad y enfoque técnico."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Qué significan las siglas AECID?",
+            "options": [
+                  "Agencia Española de Cooperación Internacional para el Desarrollo",
+                  "Agencia Europea de Cultura e Innovación Digital",
+                  "Administración Española de Consulados Internacionales",
+                  "Archivo Estatal de Cooperación"
+            ],
+            "correct": 0,
+            "exp": "Es el organismo de gestión de la Cooperación Española."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿A qué Ministerio está adscrita la AECID?",
+            "options": [
+                  "Ministerio de Asuntos Exteriores, Unión Europea y Cooperación",
+                  "Ministerio del Interior",
+                  "Ministerio de Justicia",
+                  "Ministerio de Cultura únicamente"
+            ],
+            "correct": 0,
+            "exp": "Depende del área de Exteriores y Cooperación."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Cuál es una finalidad de la AECID?",
+            "options": [
+                  "Promover cooperación internacional y desarrollo sostenible",
+                  "Gestionar multas de tráfico",
+                  "Organizar elecciones locales",
+                  "Dirigir juzgados"
+            ],
+            "correct": 0,
+            "exp": "La cooperación busca desarrollo y reducción de desigualdades."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Qué significa OTC?",
+            "options": [
+                  "Oficina de Cooperación Técnica",
+                  "Organización de Trámite Consular",
+                  "Oficina de Turismo Cultural",
+                  "Orden Técnica Contable"
+            ],
+            "correct": 0,
+            "exp": "La OTC coordina cooperación técnica en terreno."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Qué significa CCE?",
+            "options": [
+                  "Centro Cultural de España",
+                  "Consejo Comercial Exterior",
+                  "Centro Consular Europeo",
+                  "Comisión de Cooperación Estatal"
+            ],
+            "correct": 0,
+            "exp": "Los CCE son espacios culturales españoles en el exterior."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Qué es cooperación para el desarrollo?",
+            "options": [
+                  "Acciones para mejorar condiciones de vida y promover desarrollo sostenible",
+                  "Una competición deportiva",
+                  "Un negocio privado sin objetivo social",
+                  "Un trámite policial"
+            ],
+            "correct": 0,
+            "exp": "La cooperación impulsa capacidades y oportunidades."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Qué promueve la Agenda 2030?",
+            "options": [
+                  "Objetivos de Desarrollo Sostenible",
+                  "Solo turismo internacional",
+                  "La desaparición de administraciones",
+                  "Solo comercio"
+            ],
+            "correct": 0,
+            "exp": "La Agenda 2030 trabaja los ODS."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Cuál es una línea habitual de cooperación?",
+            "options": [
+                  "Educación, cultura, salud, igualdad y desarrollo sostenible",
+                  "Multas, detenciones y sanciones penales",
+                  "Venta de productos sin control",
+                  "Campañas electorales"
+            ],
+            "correct": 0,
+            "exp": "Son ámbitos habituales de cooperación."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "En una OTC, el auxiliar administrativo puede apoyar en:",
+            "options": [
+                  "Archivo, agenda, atención, registro y documentación",
+                  "Dictar sentencias",
+                  "Firmar tratados internacionales",
+                  "Nombrar embajadores"
+            ],
+            "correct": 0,
+            "exp": "Son tareas administrativas reales."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Qué actitud conviene ante una institución de cooperación?",
+            "options": [
+                  "Respeto, neutralidad, servicio y discreción",
+                  "Crítica política permanente",
+                  "Improvisación y rumores",
+                  "Confusión documental"
+            ],
+            "correct": 0,
+            "exp": "El entorno institucional exige profesionalidad."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Qué es ayuda humanitaria?",
+            "options": [
+                  "Respuesta a crisis, emergencias y necesidades básicas",
+                  "Una factura comercial",
+                  "Un examen de oposición",
+                  "Un documento contable interno"
+            ],
+            "correct": 0,
+            "exp": "Atienden necesidades urgentes."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Qué es desarrollo sostenible?",
+            "options": [
+                  "Desarrollo que atiende necesidades actuales sin comprometer el futuro",
+                  "Crecimiento sin límites ambientales",
+                  "Solo construcción de edificios",
+                  "Solo exportaciones"
+            ],
+            "correct": 0,
+            "exp": "Une desarrollo social, económico y ambiental."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Por qué la cultura importa en la cooperación?",
+            "options": [
+                  "Porque fortalece identidad, diálogo y educación",
+                  "Porque sustituye toda administración",
+                  "Porque elimina documentos",
+                  "Porque solo sirve para espectáculos"
+            ],
+            "correct": 0,
+            "exp": "La cultura crea puentes y fortalece comunidades."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Qué valor tiene la educación para la cooperación?",
+            "options": [
+                  "Es base de oportunidades y desarrollo humano",
+                  "No tiene importancia",
+                  "Solo sirve para adultos",
+                  "Sustituye a la sanidad"
+            ],
+            "correct": 0,
+            "exp": "La educación abre oportunidades."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Qué documento conviene registrar en una oficina?",
+            "options": [
+                  "Entradas y salidas oficiales",
+                  "Conversaciones informales",
+                  "Rumores personales",
+                  "Mensajes privados no autorizados"
+            ],
+            "correct": 0,
+            "exp": "El registro garantiza control."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Qué significa trabajar con transparencia?",
+            "options": [
+                  "Actuar con claridad, trazabilidad y responsabilidad",
+                  "Ocultar información pública",
+                  "Improvisar sin constancia",
+                  "Eliminar expedientes"
+            ],
+            "correct": 0,
+            "exp": "La transparencia fortalece la confianza."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Qué debe hacer Francisco si no sabe una respuesta exacta?",
+            "options": [
+                  "Responder con prudencia y basarse en procedimientos",
+                  "Inventar",
+                  "Culpar a otros",
+                  "Discutir"
+            ],
+            "correct": 0,
+            "exp": "Nunca conviene inventar en una institución."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Qué relación hay entre AECID y MAEC?",
+            "options": [
+                  "La AECID está adscrita al MAEC",
+                  "La AECID sustituye al MAEC",
+                  "No tienen relación",
+                  "El MAEC depende de la AECID"
+            ],
+            "correct": 0,
+            "exp": "La AECID se integra en la política exterior española."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "¿Qué se espera de un auxiliar en un entorno internacional?",
+            "options": [
+                  "Orden, confidencialidad, trato correcto y eficacia",
+                  "Opiniones políticas públicas",
+                  "Desorden y retrasos",
+                  "Improvisación sin seguimiento"
+            ],
+            "correct": 0,
+            "exp": "Son competencias prácticas del puesto."
+      },
+      {
+            "cat": "AECID y cooperación",
+            "q": "Una buena frase institucional sería:",
+            "options": [
+                  "Mi labor es facilitar la gestión administrativa siguiendo los procedimientos establecidos",
+                  "Yo hago lo que me parece",
+                  "La política decide todo",
+                  "No necesito registrar nada"
+            ],
+            "correct": 0,
+            "exp": "Es una frase neutral, técnica y profesional."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué es un expediente administrativo?",
+            "options": [
+                  "Conjunto ordenado de documentos sobre un asunto",
+                  "Una carpeta personal sin orden",
+                  "Una conversación informal",
+                  "Un folleto publicitario"
+            ],
+            "correct": 0,
+            "exp": "Un expediente reúne documentos y actuaciones."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué es el registro de entrada?",
+            "options": [
+                  "Anotación oficial de documentos recibidos",
+                  "Archivo histórico",
+                  "Lista telefónica",
+                  "Documento sin fecha"
+            ],
+            "correct": 0,
+            "exp": "Controla lo que entra oficialmente."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué es el registro de salida?",
+            "options": [
+                  "Anotación oficial de documentos enviados",
+                  "Documento destruido",
+                  "Mensaje privado",
+                  "Carpeta sin control"
+            ],
+            "correct": 0,
+            "exp": "Controla lo que sale oficialmente."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué es archivar?",
+            "options": [
+                  "Ordenar y conservar documentos para consulta",
+                  "Tirar papeles",
+                  "Ocultar información",
+                  "Mezclar expedientes"
+            ],
+            "correct": 0,
+            "exp": "Archivar permite localizar y conservar."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "Ordenar documentos por fecha es orden:",
+            "options": [
+                  "Cronológico",
+                  "Alfabético",
+                  "Temático",
+                  "Geográfico"
+            ],
+            "correct": 0,
+            "exp": "Cronológico significa por fecha."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "Ordenar documentos por apellido es orden:",
+            "options": [
+                  "Alfabético",
+                  "Cronológico",
+                  "Numérico",
+                  "Aleatorio"
+            ],
+            "correct": 0,
+            "exp": "Alfabético usa letras/apellidos."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué es una notificación administrativa?",
+            "options": [
+                  "Comunicación formal de una decisión o acto",
+                  "Una charla informal",
+                  "Un rumor",
+                  "Una llamada sin contenido"
+            ],
+            "correct": 0,
+            "exp": "La notificación comunica actos administrativos."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué debe tener un documento administrativo claro?",
+            "options": [
+                  "Fecha, destinatario, asunto, cuerpo y firma si procede",
+                  "Solo dibujos",
+                  "Sin fecha",
+                  "Solo opinión personal"
+            ],
+            "correct": 0,
+            "exp": "La estructura evita confusión."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué es un oficio?",
+            "options": [
+                  "Comunicación administrativa formal",
+                  "Documento íntimo",
+                  "Factura comercial privada",
+                  "Cartel publicitario"
+            ],
+            "correct": 0,
+            "exp": "El oficio es una comunicación institucional."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué es una nota interna?",
+            "options": [
+                  "Comunicación dentro de una organización",
+                  "Carta familiar",
+                  "Contrato laboral siempre",
+                  "Sentencia judicial"
+            ],
+            "correct": 0,
+            "exp": "Sirve para comunicación interna."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué es un acta?",
+            "options": [
+                  "Documento que recoge hechos o acuerdos de una reunión",
+                  "Correo informal",
+                  "Presupuesto económico siempre",
+                  "DNI"
+            ],
+            "correct": 0,
+            "exp": "El acta deja constancia."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué es un memorándum?",
+            "options": [
+                  "Documento breve para recordar o informar sobre un asunto",
+                  "Documento penal",
+                  "Pasaporte",
+                  "Resolución judicial"
+            ],
+            "correct": 0,
+            "exp": "Es un documento breve e informativo."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "En atención al público, se debe:",
+            "options": [
+                  "Escuchar, orientar y responder con respeto",
+                  "Interrumpir siempre",
+                  "Ignorar solicitudes",
+                  "Dar datos confidenciales"
+            ],
+            "correct": 0,
+            "exp": "El trato al público debe ser correcto."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué hacer con información confidencial?",
+            "options": [
+                  "Protegerla y no divulgarla",
+                  "Publicarla en redes",
+                  "Comentarlo informalmente",
+                  "Dejarla visible"
+            ],
+            "correct": 0,
+            "exp": "La confidencialidad es obligatoria."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué es trazabilidad documental?",
+            "options": [
+                  "Poder seguir el recorrido de un documento",
+                  "Perder papeles",
+                  "Duplicar sin control",
+                  "No registrar"
+            ],
+            "correct": 0,
+            "exp": "Permite saber origen, trámite y destino."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué es una copia compulsada?",
+            "options": [
+                  "Copia cotejada con el original",
+                  "Copia sin revisar",
+                  "Documento borrador",
+                  "Fotografía informal"
+            ],
+            "correct": 0,
+            "exp": "Acredita correspondencia con el original."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué significa diligencia administrativa?",
+            "options": [
+                  "Actuar con cuidado, rapidez razonable y responsabilidad",
+                  "Hacer todo tarde",
+                  "No contestar",
+                  "Improvisar"
+            ],
+            "correct": 0,
+            "exp": "Diligencia es actuar correctamente."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué es un archivo corriente?",
+            "options": [
+                  "Archivo de uso frecuente en gestión diaria",
+                  "Museo histórico",
+                  "Papelera",
+                  "Archivo sin clasificar"
+            ],
+            "correct": 0,
+            "exp": "Contiene documentos activos o recientes."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué es el servicio público?",
+            "options": [
+                  "Actividad orientada al interés general",
+                  "Beneficio privado exclusivo",
+                  "Favor personal",
+                  "Opinión política"
+            ],
+            "correct": 0,
+            "exp": "Se orienta al interés general."
+      },
+      {
+            "cat": "Administración y procedimiento",
+            "q": "¿Qué principio se asocia a buena administración?",
+            "options": [
+                  "Eficacia y servicio al ciudadano",
+                  "Desorden",
+                  "Favoritismo",
+                  "Silencio arbitrario"
+            ],
+            "correct": 0,
+            "exp": "La buena administración exige eficacia."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Para qué sirve Microsoft Word?",
+            "options": [
+                  "Procesamiento de textos",
+                  "Cálculos complejos principalmente",
+                  "Bases de datos exclusivamente",
+                  "Edición de vídeo"
+            ],
+            "correct": 0,
+            "exp": "Word sirve para documentos de texto."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Para qué sirve Microsoft Excel?",
+            "options": [
+                  "Hojas de cálculo, tablas y presupuestos",
+                  "Solo cartas",
+                  "Solo presentaciones",
+                  "Solo navegación web"
+            ],
+            "correct": 0,
+            "exp": "Excel organiza datos y cálculos."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Para qué sirve PowerPoint?",
+            "options": [
+                  "Presentaciones",
+                  "Registro oficial",
+                  "Firma digital siempre",
+                  "Contabilidad pública"
+            ],
+            "correct": 0,
+            "exp": "PowerPoint sirve para presentaciones."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Para qué sirve Outlook?",
+            "options": [
+                  "Correo electrónico, calendario y contactos",
+                  "Cálculo de fórmulas",
+                  "Diseño gráfico avanzado",
+                  "Base de datos únicamente"
+            ],
+            "correct": 0,
+            "exp": "Outlook gestiona correo y agenda."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "En Excel, una celda es:",
+            "options": [
+                  "Intersección entre fila y columna",
+                  "Una página completa",
+                  "Un archivo PDF",
+                  "Un gráfico"
+            ],
+            "correct": 0,
+            "exp": "La celda es la unidad básica."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "En Excel, una fórmula comienza normalmente con:",
+            "options": [
+                  "=",
+                  "@",
+                  "#",
+                  "!"
+            ],
+            "correct": 0,
+            "exp": "Las fórmulas empiezan con igual."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Qué función suma valores en Excel?",
+            "options": [
+                  "SUMA",
+                  "RESTAR",
+                  "TEXTO",
+                  "BUSCARWEB"
+            ],
+            "correct": 0,
+            "exp": "SUMA agrega valores."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Qué función calcula una media?",
+            "options": [
+                  "PROMEDIO",
+                  "SUMA",
+                  "MINUTO",
+                  "ARCHIVO"
+            ],
+            "correct": 0,
+            "exp": "PROMEDIO calcula la media."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Qué significa ordenar datos?",
+            "options": [
+                  "Colocarlos según criterio alfabético, numérico o fecha",
+                  "Borrarlos",
+                  "Ocultarlos sin criterio",
+                  "Duplicarlos"
+            ],
+            "correct": 0,
+            "exp": "Ordenar facilita lectura y análisis."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Qué es filtrar datos en Excel?",
+            "options": [
+                  "Mostrar solo registros que cumplen condiciones",
+                  "Eliminar todo",
+                  "Cambiar idioma",
+                  "Cerrar archivo"
+            ],
+            "correct": 0,
+            "exp": "Filtrar reduce la vista según criterios."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Qué es un PDF?",
+            "options": [
+                  "Formato de documento portátil",
+                  "Hoja Excel",
+                  "Programa de correo",
+                  "Sistema operativo"
+            ],
+            "correct": 0,
+            "exp": "PDF conserva formato."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Qué es una copia de seguridad?",
+            "options": [
+                  "Duplicado para proteger información",
+                  "Documento eliminado",
+                  "Virus",
+                  "Pantalla bloqueada"
+            ],
+            "correct": 0,
+            "exp": "Protege contra pérdida de datos."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Qué es una contraseña segura?",
+            "options": [
+                  "Larga, difícil y no reutilizada",
+                  "123456",
+                  "Nombre propio",
+                  "Fecha de nacimiento"
+            ],
+            "correct": 0,
+            "exp": "Debe ser fuerte y única."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Qué significa HTTPS?",
+            "options": [
+                  "Conexión web segura cifrada",
+                  "Documento Word",
+                  "Archivo comprimido",
+                  "Sistema de impresión"
+            ],
+            "correct": 0,
+            "exp": "HTTPS indica cifrado."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Qué es un navegador web?",
+            "options": [
+                  "Programa para acceder a sitios web",
+                  "Hoja de cálculo",
+                  "Impresora",
+                  "Teclado"
+            ],
+            "correct": 0,
+            "exp": "Chrome, Edge o Firefox son navegadores."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Qué es un archivo adjunto?",
+            "options": [
+                  "Fichero enviado junto a un correo",
+                  "Firma manuscrita",
+                  "Botón de apagar",
+                  "Carpeta vacía"
+            ],
+            "correct": 0,
+            "exp": "Va unido al mensaje."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Qué es CC en un correo?",
+            "options": [
+                  "Copia visible a otros destinatarios",
+                  "Correo confidencial siempre",
+                  "Cancelar correo",
+                  "Crear carpeta"
+            ],
+            "correct": 0,
+            "exp": "CC muestra copia a todos."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Qué es CCO/BCC?",
+            "options": [
+                  "Copia oculta",
+                  "Copia obligatoria",
+                  "Cerrar correo",
+                  "Código civil"
+            ],
+            "correct": 0,
+            "exp": "CCO oculta destinatarios."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "Antes de enviar un correo oficial conviene:",
+            "options": [
+                  "Revisar destinatario, asunto, adjuntos y ortografía",
+                  "Enviar rápido sin revisar",
+                  "Usar solo mayúsculas",
+                  "No poner asunto"
+            ],
+            "correct": 0,
+            "exp": "La revisión evita errores."
+      },
+      {
+            "cat": "Ofimática y dactilografía",
+            "q": "¿Qué es mecanografía/dactilografía?",
+            "options": [
+                  "Escritura con teclado con rapidez y precisión",
+                  "Dibujo a mano",
+                  "Escaneo de fotos",
+                  "Cálculo mental"
+            ],
+            "correct": 0,
+            "exp": "La prueba mide velocidad y exactitud."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Cuál es la capital de España?",
+            "options": [
+                  "Madrid",
+                  "Barcelona",
+                  "Sevilla",
+                  "Valencia"
+            ],
+            "correct": 0,
+            "exp": "Madrid es la capital."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Cuál es la capital de Guinea Ecuatorial?",
+            "options": [
+                  "Malabo",
+                  "Bata",
+                  "Annobón",
+                  "Mongomo"
+            ],
+            "correct": 0,
+            "exp": "Malabo es la capital."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Qué idioma oficial comparten España y Guinea Ecuatorial?",
+            "options": [
+                  "Español",
+                  "Portugués",
+                  "Francés únicamente",
+                  "Italiano"
+            ],
+            "correct": 0,
+            "exp": "Ambos países comparten el español."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "España ingresó en la Comunidad Europea en:",
+            "options": [
+                  "1986",
+                  "1978",
+                  "2000",
+                  "1992"
+            ],
+            "correct": 0,
+            "exp": "España ingresó en 1986."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Cuántos Estados miembros tiene actualmente la Unión Europea?",
+            "options": [
+                  "27",
+                  "15",
+                  "30",
+                  "20"
+            ],
+            "correct": 0,
+            "exp": "La Unión Europea tiene 27 miembros."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Qué institución europea propone legislación y ejecuta políticas?",
+            "options": [
+                  "Comisión Europea",
+                  "OTC",
+                  "Ayuntamiento",
+                  "Tribunal Supremo español"
+            ],
+            "correct": 0,
+            "exp": "La Comisión Europea tiene función ejecutiva."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Qué moneda usa España?",
+            "options": [
+                  "Euro",
+                  "Peseta",
+                  "Franco CFA",
+                  "Dólar"
+            ],
+            "correct": 0,
+            "exp": "España usa el euro."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Qué es la ONU?",
+            "options": [
+                  "Organización de Naciones Unidas",
+                  "Oficina Nacional Única",
+                  "Orden Notarial Urbana",
+                  "Organismo Naval"
+            ],
+            "correct": 0,
+            "exp": "Es una organización internacional."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Qué son los ODS?",
+            "options": [
+                  "Objetivos de Desarrollo Sostenible",
+                  "Oficinas de Documentación Social",
+                  "Órdenes de Seguridad",
+                  "Operaciones de Deuda"
+            ],
+            "correct": 0,
+            "exp": "ODS son Objetivos de Desarrollo Sostenible."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Qué océano rodea Annobón?",
+            "options": [
+                  "Atlántico",
+                  "Pacífico",
+                  "Índico",
+                  "Ártico"
+            ],
+            "correct": 0,
+            "exp": "Annobón está en el Atlántico."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Qué país colonizó históricamente Guinea Ecuatorial?",
+            "options": [
+                  "España",
+                  "Italia",
+                  "Alemania",
+                  "Rusia"
+            ],
+            "correct": 0,
+            "exp": "Existe vínculo histórico con España."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Qué ciudad española es sede del Gobierno central?",
+            "options": [
+                  "Madrid",
+                  "Bilbao",
+                  "Granada",
+                  "Zaragoza"
+            ],
+            "correct": 0,
+            "exp": "Madrid es sede del Gobierno."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Cuál es una Comunidad Autónoma española?",
+            "options": [
+                  "Andalucía",
+                  "Lisboa",
+                  "París",
+                  "Roma"
+            ],
+            "correct": 0,
+            "exp": "Andalucía es Comunidad Autónoma."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Cuál es una ciudad autónoma española?",
+            "options": [
+                  "Ceuta",
+                  "Málaga",
+                  "Córdoba",
+                  "Toledo"
+            ],
+            "correct": 0,
+            "exp": "Ceuta es ciudad autónoma."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Qué mar baña parte del este y sur de España?",
+            "options": [
+                  "Mediterráneo",
+                  "Negro",
+                  "Rojo",
+                  "Caspio"
+            ],
+            "correct": 0,
+            "exp": "España tiene costa mediterránea."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Qué es una embajada?",
+            "options": [
+                  "Representación diplomática de un Estado en otro país",
+                  "Archivo municipal",
+                  "Empresa privada",
+                  "Juzgado local"
+            ],
+            "correct": 0,
+            "exp": "Representa al Estado en otro país."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Qué es un consulado?",
+            "options": [
+                  "Oficina que presta asistencia y trámites consulares",
+                  "Banco privado",
+                  "Centro deportivo",
+                  "Tribunal europeo"
+            ],
+            "correct": 0,
+            "exp": "Presta servicios consulares."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Qué es un visado?",
+            "options": [
+                  "Autorización para entrar o permanecer en un país según condiciones",
+                  "Billete de avión",
+                  "Seguro médico",
+                  "Contrato laboral"
+            ],
+            "correct": 0,
+            "exp": "Autoriza entrada o estancia."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Qué documento identifica a un ciudadano español?",
+            "options": [
+                  "DNI",
+                  "Factura",
+                  "Billete",
+                  "Acta interna"
+            ],
+            "correct": 0,
+            "exp": "El DNI identifica a ciudadanos españoles."
+      },
+      {
+            "cat": "Cultura general",
+            "q": "¿Qué documento se usa habitualmente para viajar internacionalmente?",
+            "options": [
+                  "Pasaporte",
+                  "Recibo",
+                  "Carpeta",
+                  "Hoja Excel"
+            ],
+            "correct": 0,
+            "exp": "El pasaporte es documento de viaje."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "Si un ciudadano llega nervioso a la oficina, lo correcto es:",
+            "options": [
+                  "Escuchar con calma y orientar con respeto",
+                  "Gritar",
+                  "Ignorarlo",
+                  "Responder con ironía"
+            ],
+            "correct": 0,
+            "exp": "La atención exige calma."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "Si falta un documento en un expediente, se debe:",
+            "options": [
+                  "Comunicarlo y solicitar subsanación según procedimiento",
+                  "Ocultarlo",
+                  "Inventarlo",
+                  "Cerrar el expediente sin aviso"
+            ],
+            "correct": 0,
+            "exp": "Debe corregirse por procedimiento."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "Si se recibe un correo con adjunto sospechoso, se debe:",
+            "options": [
+                  "No abrirlo y consultar al responsable o soporte",
+                  "Abrirlo rápido",
+                  "Reenviarlo a todos",
+                  "Descargarlo en USB"
+            ],
+            "correct": 0,
+            "exp": "La seguridad exige prudencia."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "En un oficio, el asunto debe ser:",
+            "options": [
+                  "Claro y concreto",
+                  "Vacío",
+                  "Muy largo y confuso",
+                  "Solo con emojis"
+            ],
+            "correct": 0,
+            "exp": "El asunto orienta el trámite."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "En un acta, debe constar:",
+            "options": [
+                  "Fecha, asistentes, asuntos tratados y acuerdos",
+                  "Solo opiniones",
+                  "Nada de fecha",
+                  "Solo firmas sin contenido"
+            ],
+            "correct": 0,
+            "exp": "El acta documenta hechos."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "Si Francisco redacta una nota interna, debe usar tono:",
+            "options": [
+                  "Claro, profesional y breve",
+                  "Agresivo",
+                  "Familiar excesivo",
+                  "Confuso"
+            ],
+            "correct": 0,
+            "exp": "La comunicación interna debe ser profesional."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "Si le piden datos personales de terceros, debe:",
+            "options": [
+                  "Verificar autorización y respetar protección de datos",
+                  "Entregarlos siempre",
+                  "Publicarlos",
+                  "Comentarlos informalmente"
+            ],
+            "correct": 0,
+            "exp": "Los datos personales están protegidos."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "La neutralidad administrativa significa:",
+            "options": [
+                  "Actuar sin favoritismo y conforme a normas",
+                  "No trabajar",
+                  "Opinar de política en expediente",
+                  "Ayudar solo a conocidos"
+            ],
+            "correct": 0,
+            "exp": "Neutralidad significa objetividad."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "Si una persona pregunta algo fuera de competencia, se debe:",
+            "options": [
+                  "Orientar al servicio competente",
+                  "Inventar respuesta",
+                  "Despreciar la pregunta",
+                  "Cerrar conversación"
+            ],
+            "correct": 0,
+            "exp": "Debe orientarse correctamente."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "Una respuesta institucional correcta sería:",
+            "options": [
+                  "Su solicitud será tramitada conforme al procedimiento establecido",
+                  "Eso depende de lo que yo quiera",
+                  "No me interesa",
+                  "Pregunte en la calle"
+            ],
+            "correct": 0,
+            "exp": "Es clara y procedimental."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "En redacción administrativa se deben evitar:",
+            "options": [
+                  "Faltas de ortografía y ambigüedad",
+                  "Claridad",
+                  "Fechas",
+                  "Asuntos concretos"
+            ],
+            "correct": 0,
+            "exp": "La claridad es esencial."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "Si hay mucha carga de trabajo, se debe:",
+            "options": [
+                  "Priorizar, organizar y mantener registro",
+                  "Tirar documentos",
+                  "Ignorar usuarios",
+                  "No registrar nada"
+            ],
+            "correct": 0,
+            "exp": "La organización es clave."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "Si se equivoca al registrar un documento, debe:",
+            "options": [
+                  "Comunicar y corregir según procedimiento",
+                  "Ocultarlo",
+                  "Borrar sin rastro",
+                  "Culpar a otro"
+            ],
+            "correct": 0,
+            "exp": "El error se corrige con transparencia."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "En atención telefónica, conviene:",
+            "options": [
+                  "Identificarse, escuchar y tomar nota",
+                  "Colgar sin hablar",
+                  "No apuntar nada",
+                  "Dar datos sin verificar"
+            ],
+            "correct": 0,
+            "exp": "La atención telefónica requiere método."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "Si un superior pide un informe, el auxiliar debe:",
+            "options": [
+                  "Preparar información ordenada y clara",
+                  "Responder sin datos",
+                  "Hacerlo sin revisar",
+                  "Inventar cifras"
+            ],
+            "correct": 0,
+            "exp": "El informe debe ser fiable."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "¿Qué es confidencialidad?",
+            "options": [
+                  "Proteger información sensible",
+                  "Contar todo",
+                  "Publicar datos",
+                  "Compartir claves"
+            ],
+            "correct": 0,
+            "exp": "La confidencialidad protege información."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "En una oficina, la puntualidad demuestra:",
+            "options": [
+                  "Responsabilidad y respeto",
+                  "Improvisación",
+                  "Falta de interés",
+                  "Desorden"
+            ],
+            "correct": 0,
+            "exp": "La puntualidad es profesionalidad."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "Si no se entiende una instrucción, conviene:",
+            "options": [
+                  "Pedir aclaración con respeto",
+                  "Hacer cualquier cosa",
+                  "Ignorar",
+                  "Discutir"
+            ],
+            "correct": 0,
+            "exp": "Preguntar evita errores."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "Para un examen, es mejor:",
+            "options": [
+                  "Leer bien cada pregunta antes de responder",
+                  "Marcar sin leer",
+                  "Cambiar todas al final",
+                  "Responder solo las fáciles y olvidar el resto"
+            ],
+            "correct": 0,
+            "exp": "Leer evita trampas."
+      },
+      {
+            "cat": "Casos prácticos",
+            "q": "En una prueba de dactilografía se valora:",
+            "options": [
+                  "Rapidez y precisión",
+                  "Solo decoración",
+                  "Tamaño de letra manuscrita",
+                  "Opinión personal"
+            ],
+            "correct": 0,
+            "exp": "La dactilografía mide velocidad y precisión."
+      }
+];
+    let flashcards = [
+      {
+            "q": "¿Qué es la AECID?",
+            "a": "Agencia Española de Cooperación Internacional para el Desarrollo."
+      },
+      {
+            "q": "¿De qué Ministerio depende la AECID?",
+            "a": "Del Ministerio de Asuntos Exteriores, Unión Europea y Cooperación."
+      },
+      {
+            "q": "¿Qué significa OTC?",
+            "a": "Oficina de Cooperación Técnica."
+      },
+      {
+            "q": "¿Qué significa CCE?",
+            "a": "Centro Cultural de España."
+      },
+      {
+            "q": "¿Norma suprema de España?",
+            "a": "La Constitución Española de 1978."
+      },
+      {
+            "q": "¿Forma política de España?",
+            "a": "Monarquía Parlamentaria."
+      },
+      {
+            "q": "Funciones del auxiliar administrativo",
+            "a": "Archivo, registro, atención, documentación, ofimática y organización."
+      },
+      {
+            "q": "Actitud correcta",
+            "a": "Neutralidad, discreción, respeto, claridad y profesionalidad."
+      }
+];
+
+    let state = JSON.parse(localStorage.getItem("aecidUltraProReadable") || '{"correct":0,"errors":[],"answered":0,"docs":0,"wpm":0,"hard":[]}');
+
+    let currentCard = 0;
+    let practiceList = [];
+    let practiceIndex = 0;
+    let practiceAnswered = false;
+    let filterCategory = "TODAS";
+
+    let examCount = 30;
+    let examMinutes = 30;
+    let examList = [];
+    let examIndex = 0;
+    let examCorrect = 0;
+    let examWrong = 0;
+    let examBlank = 0;
+    let examAnswered = false;
+    let timer = null;
+    let secondsLeft = 1800;
+    let wrongMode = false;
+
+    let currentDocType = "OFICIO ADMINISTRATIVO";
+    let typingText = "";
+    let typingStart = 0;
+    let typingActive = false;
+
+    const typingTexts = [
+      "La Administración pública debe actuar con eficacia, transparencia y servicio objetivo al interés general.",
+      "La AECID promueve la cooperación internacional para el desarrollo sostenible, la cultura y la ayuda humanitaria.",
+      "El auxiliar administrativo debe mantener orden, confidencialidad, precisión documental y trato respetuoso al público.",
+      "El registro de entrada y salida permite controlar oficialmente los documentos recibidos y enviados por la oficina."
+    ];
+
+    function saveState() {
+      localStorage.setItem("aecidUltraProReadable", JSON.stringify(state));
+    }
+
+    function updateDashboard() {
+      const progress = Math.min(100, Math.round((state.answered / 240) * 100));
+      document.getElementById("stProgress").textContent = progress + "%";
+      document.getElementById("stCorrect").textContent = state.correct;
+      document.getElementById("stErrors").textContent = state.errors.length;
+      document.getElementById("stDocs").textContent = state.docs;
+      document.getElementById("stWpm").textContent = state.wpm;
+
+      let rank = "Novato";
+      if (state.correct >= 30) rank = "Preparado";
+      if (state.correct >= 80) rank = "Avanzado";
+      if (state.correct >= 140) rank = "Institucional";
+      if (state.correct >= 220) rank = "Master";
+
+      document.getElementById("stRank").textContent = rank;
+      saveState();
+      renderErrors();
+    }
+
+    function showPanel(id, button) {
+      document.querySelectorAll(".panel").forEach(panel => panel.classList.remove("active"));
+      document.querySelectorAll(".nav button").forEach(btn => btn.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      button.classList.add("active");
+
+      if (id === "practice" && practiceList.length === 0) {
+        restartPractice();
+      }
+    }
+
+    function shuffle(array) {
+      return [...array].sort(() => Math.random() - 0.5);
+    }
+
+    function renderCard() {
+      document.getElementById("flashCard").classList.remove("flipped");
+
+      setTimeout(() => {
+        document.getElementById("flashQ").textContent = flashcards[currentCard].q;
+        document.getElementById("flashA").textContent = flashcards[currentCard].a;
+        document.getElementById("flashCounter").textContent = currentCard + 1;
+        document.getElementById("flashTotal").textContent = flashcards.length;
+      }, 160);
+    }
+
+    function flipCard() {
+      document.getElementById("flashCard").classList.toggle("flipped");
+    }
+
+    function nextCard() {
+      currentCard = (currentCard + 1) % flashcards.length;
+      renderCard();
+    }
+
+    function previousCard() {
+      currentCard = (currentCard - 1 + flashcards.length) % flashcards.length;
+      renderCard();
+    }
+
+    function shuffleCards() {
+      flashcards = shuffle(flashcards);
+      currentCard = 0;
+      renderCard();
+    }
+
+    function markHard() {
+      state.hard.push(flashcards[currentCard]);
+      saveState();
+      alert("Tarjeta marcada como difícil.");
+    }
+
+    function buildFilter() {
+      const categories = ["TODAS", ...new Set(database.map(item => item.cat))];
+
+      document.getElementById("filterBox").innerHTML = categories.map(cat => `
+        <button class="btn ${cat === filterCategory ? "primary" : ""}" onclick="filterCategory='${cat}'; buildFilter(); restartPractice();">${cat}</button>
+      `).join("");
+    }
+
+    function restartPractice() {
+      practiceList = shuffle(filterCategory === "TODAS" ? database : database.filter(item => item.cat === filterCategory));
+      practiceIndex = 0;
+      renderPractice();
+    }
+
+    function renderPractice() {
+      practiceAnswered = false;
+      document.getElementById("practiceBar").style.width = ((practiceIndex / (practiceList.length || 1)) * 100) + "%";
+
+      if (practiceIndex >= practiceList.length) {
+        document.getElementById("practiceBox").innerHTML = `
+          <div class="result">
+            <h2>✅ Entrenamiento terminado</h2>
+            <p>Bloque completado. Repite los errores para consolidar.</p>
+          </div>
+        `;
+        return;
+      }
+
+      document.getElementById("practiceBox").innerHTML = questionHTML(practiceList[practiceIndex], practiceIndex, practiceList.length, "practice");
+    }
+
+    function nextPractice() {
+      practiceIndex++;
+      renderPractice();
+    }
+
+    function questionHTML(question, index, total, mode) {
+      const timerHTML = mode === "exam" ? `<span class="timer" id="timerDisplay">${formatTime(secondsLeft)}</span>` : "";
+
+      return `
+        <div class="question-head">
+          <span class="tag">${question.cat}</span>
+          <strong>Pregunta ${index + 1} / ${total}</strong>
+          ${timerHTML}
+        </div>
+        <h3 class="qtitle">${question.q}</h3>
+        ${shuffleOptionsHTML(question, mode)}
+        <div id="${mode}Feedback" class="feedback"></div>
+      `;
+    }
+
+    function shuffleOptionsHTML(question, mode) {
+      const mapped = question.options.map((text, index) => ({text, original:index}));
+      const shuffled = shuffle(mapped);
+
+      question.currentOptions = shuffled;
+
+      return shuffled.map((option, index) => `
+        <button class="option" onclick="answerQuestion(${index}, '${mode}')">${option.text}</button>
+      `).join("");
+    }
+
+    function answerQuestion(selectedIndex, mode) {
+      if (mode === "practice" && practiceAnswered) return;
+      if (mode === "exam" && examAnswered) return;
+
+      const question = mode === "practice" ? practiceList[practiceIndex] : examList[examIndex];
+      const container = mode === "practice" ? document.getElementById("practiceBox") : document.getElementById("examBox");
+      const feedback = document.getElementById(mode + "Feedback");
+      const buttons = container.querySelectorAll(".option");
+      const selectedOriginalIndex = question.currentOptions[selectedIndex].original;
+      const isCorrect = selectedOriginalIndex === question.correct;
+
+      buttons.forEach((button, index) => {
+        button.classList.add("disabled");
+        const original = question.currentOptions[index].original;
+        if (original === question.correct) button.classList.add("correct");
+        if (index === selectedIndex && !isCorrect) button.classList.add("wrong");
+      });
+
+      if (isCorrect) {
+        feedback.className = "feedback good";
+        feedback.innerHTML = `<strong>✅ Correcto.</strong><br>${question.exp}`;
+        state.correct++;
+        if (mode === "exam") examCorrect++;
+      } else {
+        feedback.className = "feedback bad";
+        feedback.innerHTML = `<strong>❌ Error.</strong><br><strong>Respuesta correcta:</strong> ${question.options[question.correct]}<br>${question.exp}`;
+        state.errors.push({
+          area: question.cat,
+          question: question.q,
+          selected: question.currentOptions[selectedIndex].text,
+          correct: question.options[question.correct],
+          exp: question.exp
+        });
+        if (mode === "exam") examWrong++;
+      }
+
+      state.answered++;
+      updateDashboard();
+
+      if (mode === "practice") {
+        practiceAnswered = true;
+        setTimeout(nextPractice, isCorrect ? 850 : 2300);
+      } else {
+        examAnswered = true;
+        setTimeout(nextExam, isCorrect ? 650 : 1400);
+      }
+    }
+
+    function setExam(count, minutes) {
+      wrongMode = false;
+      examCount = count;
+      examMinutes = minutes;
+      document.getElementById("examDuration").textContent = minutes + " minutos";
+      document.getElementById("examQuestions").textContent = count;
+    }
+
+    function setWrongExam() {
+      wrongMode = true;
+      examCount = Math.min(30, state.errors.length);
+      examMinutes = 30;
+      document.getElementById("examDuration").textContent = "30 minutos";
+      document.getElementById("examQuestions").textContent = examCount + " fallos";
+    }
+
+    function startExam() {
+      if (wrongMode) {
+        examList = shuffle(state.errors.map(error => ({
+          cat: error.area,
+          q: error.question,
+          options: shuffle([error.correct, error.selected, "No procede", "Respuesta no indicada"]),
+          correct: 0,
+          exp: error.exp
+        }))).slice(0, examCount);
+      } else {
+        examList = shuffle(database).slice(0, examCount);
+      }
+
+      if (examList.length === 0) {
+        alert("No hay preguntas disponibles para este modo.");
+        return;
+      }
+
+      examIndex = 0;
+      examCorrect = 0;
+      examWrong = 0;
+      examBlank = 0;
+      examAnswered = false;
+      secondsLeft = examMinutes * 60;
+
+      document.getElementById("examStart").style.display = "none";
+      document.getElementById("examBox").style.display = "block";
+
+      renderExam();
+
+      clearInterval(timer);
+      timer = setInterval(() => {
+        secondsLeft--;
+        const timerDisplay = document.getElementById("timerDisplay");
+        if (timerDisplay) {
+          timerDisplay.textContent = formatTime(secondsLeft);
+          if (secondsLeft < 300) timerDisplay.classList.add("danger");
+        }
+        if (secondsLeft <= 0) finishExam();
+      }, 1000);
+    }
+
+    function renderExam() {
+      examAnswered = false;
+
+      if (examIndex >= examList.length) {
+        finishExam();
+        return;
+      }
+
+      document.getElementById("examBox").innerHTML = questionHTML(examList[examIndex], examIndex, examList.length, "exam") + `
+        <div class="controls">
+          <button class="btn orange" onclick="blankExam()">Blanco / saltar</button>
+        </div>
+      `;
+    }
+
+    function nextExam() {
+      examIndex++;
+      renderExam();
+    }
+
+    function blankExam() {
+      examBlank++;
+      examIndex++;
+      renderExam();
+    }
+
+    function finishExam() {
+      clearInterval(timer);
+
+      const total = examList.length || 1;
+      const raw = examCorrect - (examWrong / 3);
+      const percent = Math.max(0, Math.round((raw / total) * 100));
+
+      document.getElementById("examBox").innerHTML = `
+        <div class="result">
+          <h2>Resultado del simulacro</h2>
+          <div class="score">${percent}%</div>
+          <p><strong>Aciertos:</strong> ${examCorrect} · <strong>Errores:</strong> ${examWrong} · <strong>Blancas:</strong> ${examBlank}</p>
+          <p><strong>Puntuación penalizada:</strong> ${raw.toFixed(2)} / ${total}</p>
+          <p>${percent >= 70 ? "✅ Buen resultado. Consolidar errores." : "⚠️ Resultado mejorable. Repetir bloques débiles."}</p>
+          <div class="controls">
+            <button class="btn green" onclick="startExam()">Repetir</button>
+            <button class="btn dark" onclick="resetExam()">Volver</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function resetExam() {
+      clearInterval(timer);
+      document.getElementById("examStart").style.display = "block";
+      document.getElementById("examBox").style.display = "none";
+    }
+
+    function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60).toString().padStart(2, "0");
+      const secs = (seconds % 60).toString().padStart(2, "0");
+      return `${minutes}:${secs}`;
+    }
+
+    function setDocType(type) {
+      currentDocType = type;
+      document.getElementById("docTitle").textContent = type;
+    }
+
+    function previewDoc() {
+      const text = `${currentDocType}\n\nPara: ${document.getElementById("docDest").value || "[DESTINATARIO]"}\nAsunto: ${document.getElementById("docSubject").value || "[ASUNTO]"}\nReferencia: ${document.getElementById("docRef").value || "[REFERENCIA]"}\nFecha: ${new Date().toLocaleDateString("es-ES")}\n\n${document.getElementById("docBody").value || "[CUERPO]"}\n\nAtentamente,\nFrancisco Ballovera Estrada`;
+
+      document.getElementById("docPreview").style.display = "block";
+      document.getElementById("docPreview").textContent = text;
+    }
+
+    function evaluateDoc() {
+      const body = document.getElementById("docBody").value.trim();
+      let score = 0;
+      let tips = [];
+
+      if (body.length > 120) score += 30; else tips.push("Desarrollar más el cuerpo del documento.");
+      if (/solicito|comunico|informo|procedimiento|adjunto|conforme/i.test(body)) score += 35; else tips.push("Añadir vocabulario administrativo.");
+      if (document.getElementById("docSubject").value.length > 5) score += 20; else tips.push("Completar un asunto claro.");
+      if (/[.,;]/.test(body)) score += 15; else tips.push("Revisar puntuación.");
+
+      state.docs++;
+      updateDashboard();
+
+      document.getElementById("docEval").innerHTML = `
+        <div class="feedback ${score >= 70 ? "good" : "bad"}" style="display:block;">
+          <strong>Evaluación: ${score}/100</strong><br>
+          ${tips.length ? tips.join("<br>") : "Documento claro, profesional y estructurado."}
+        </div>
+      `;
+    }
+
+    function exampleDoc() {
+      document.getElementById("docDest").value = "Dirección de la Oficina de Cooperación Técnica en Malabo";
+      document.getElementById("docSubject").value = "Solicitud de material de oficina";
+      document.getElementById("docRef").value = "OFI/2026/001";
+      document.getElementById("docBody").value = "Por medio del presente, comunico la necesidad de disponer de material básico de oficina para garantizar el correcto desarrollo de las tareas administrativas, conforme a los procedimientos internos establecidos.";
+      previewDoc();
+    }
+
+    function newTyping() {
+      typingText = typingTexts[Math.floor(Math.random() * typingTexts.length)];
+      document.getElementById("typingTarget").textContent = typingText;
+      document.getElementById("typingInput").value = "";
+      document.getElementById("typingResult").style.display = "none";
+    }
+
+    function startTyping() {
+      newTyping();
+      typingActive = true;
+      typingStart = Date.now();
+      document.getElementById("typingInput").disabled = false;
+      document.getElementById("typingInput").focus();
+    }
+
+    function resetTyping() {
+      typingActive = false;
+      document.getElementById("typingInput").value = "";
+      document.getElementById("typingInput").disabled = true;
+      document.getElementById("typingResult").style.display = "none";
+    }
+
+    document.getElementById("typingInput").addEventListener("input", () => {
+      if (!typingActive) return;
+
+      const value = document.getElementById("typingInput").value;
+      if (value.length >= typingText.length) {
+        const minutes = (Date.now() - typingStart) / 60000;
+        const words = value.trim().split(/\s+/).filter(Boolean).length;
+        const wpm = Math.round(words / minutes);
+
+        let correctChars = 0;
+        for (let i = 0; i < Math.min(value.length, typingText.length); i++) {
+          if (value[i] === typingText[i]) correctChars++;
+        }
+
+        const accuracy = Math.round((correctChars / typingText.length) * 100);
+        state.wpm = Math.max(state.wpm, wpm);
+        typingActive = false;
+        updateDashboard();
+
+        document.getElementById("typingResult").style.display = "block";
+        document.getElementById("typingResult").innerHTML = `
+          <h3>Resultado dactilografía</h3>
+          <div class="score">${wpm} PPM</div>
+          <p><strong>Precisión:</strong> ${accuracy}%</p>
+        `;
+      }
+    });
+
+    function renderErrors() {
+      const box = document.getElementById("errorBox");
+      if (!box) return;
+
+      if (state.errors.length === 0) {
+        box.innerHTML = `<div class="result"><h3>✅ No hay errores guardados</h3><p>Cuando falle una pregunta aparecerá aquí.</p></div>`;
+        return;
+      }
+
+      box.innerHTML = state.errors.slice().reverse().map(error => `
+        <div class="mistake">
+          <strong>Área:</strong> ${error.area}<br>
+          <strong>Pregunta:</strong> ${error.question}<br>
+          <strong>Marcada:</strong> ${error.selected}<br>
+          <strong>Correcta:</strong> ${error.correct}<br>
+          <strong>Explicación:</strong> ${error.exp}
+        </div>
+      `).join("");
+    }
+
+    function clearErrors() {
+      if (confirm("¿Borrar todos los errores?")) {
+        state.errors = [];
+        updateDashboard();
+      }
+    }
+
+    function downloadErrors() {
+      const text = state.errors.map((error, index) => `${index + 1}. [${error.area}] ${error.question}\nMarcada: ${error.selected}\nCorrecta: ${error.correct}\n${error.exp}\n`).join("\n");
+      const blob = new Blob([text], {type: "text/plain"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "errores_aecid_francisco.txt";
+      a.click();
+    }
+
+    function renderDossier() {
+      const items = [
+        ["Constitución 1978", "Norma suprema. España es Monarquía Parlamentaria."],
+        ["AECID", "Agencia Española de Cooperación Internacional para el Desarrollo. Adscrita al MAEC."],
+        ["OTC / CCE", "OTC: Oficina de Cooperación Técnica. CCE: Centro Cultural de España."],
+        ["Administración", "Archivo, registro, expediente, notificación, atención y procedimiento."],
+        ["Ofimática", "Word: textos. Excel: tablas. Outlook: correo."],
+        ["Actitud", "Neutralidad, discreción, respeto, puntualidad y claridad."],
+        ["Frase clave", "Mi labor es facilitar la gestión administrativa siguiendo los procedimientos establecidos."],
+        ["Dactilo", "Primero precisión; después velocidad."]
+      ];
+
+      document.getElementById("dossierGrid").innerHTML = items.map(item => `
+        <div class="box"><strong>${item[0]}</strong><br>${item[1]}</div>
+      `).join("");
+    }
+
+    document.addEventListener("keydown", event => {
+      if (document.getElementById("flash").classList.contains("active")) {
+        if (event.code === "Space") {
+          event.preventDefault();
+          flipCard();
+        }
+        if (event.key === "ArrowRight") nextCard();
+        if (event.key === "ArrowLeft") previousCard();
+      }
+    });
+
+    buildFilter();
+    renderCard();
+    renderDossier();
+    newTyping();
+    updateDashboard();
+  </script>
+</body>
+</html>
