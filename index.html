@@ -7,6 +7,7 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
   <style>
     :root {
@@ -522,6 +523,175 @@
       .dashboard { grid-template-columns:1fr; }
       .cardbox { height:285px; }
     }
+
+    /* MAPA INTERACTIVO DE CAPITALES */
+    .map-toolbar {
+      display:grid;
+      grid-template-columns:1.5fr 1fr 1fr;
+      gap:1rem;
+      margin-bottom:1rem;
+    }
+
+    .map-toolbar .map-control {
+      background:#ffffff;
+      border-radius:18px;
+      padding:1rem;
+      box-shadow:0 8px 24px rgba(0,0,0,.08);
+      border:1px solid rgba(0,0,0,.04);
+    }
+
+    .map-control input,
+    .map-control select,
+    .map-control button {
+      width:100%;
+      padding:.9rem 1rem;
+      border-radius:14px;
+      border:2px solid #eeeeee;
+      font-family:'Montserrat',sans-serif;
+      font-weight:800;
+      font-size:.95rem;
+    }
+
+    .map-control button {
+      background:var(--primary);
+      color:white;
+      cursor:pointer;
+      border:none;
+      transition:.25s;
+    }
+
+    .map-control button:hover {
+      filter:brightness(.95);
+      transform:translateY(-2px);
+    }
+
+    .world-layout {
+      display:grid;
+      grid-template-columns:2fr 1fr;
+      gap:1rem;
+    }
+
+    #worldMap {
+      height:70vh;
+      min-height:520px;
+      border-radius:24px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      border:4px solid #ffffff;
+      background:#dbe8ef;
+    }
+
+    .world-side {
+      display:flex;
+      flex-direction:column;
+      gap:1rem;
+    }
+
+    .world-panel {
+      background:#ffffff;
+      border-radius:22px;
+      padding:1rem;
+      box-shadow:0 10px 28px rgba(0,0,0,.10);
+    }
+
+    .world-stats {
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:.7rem;
+    }
+
+    .world-stat {
+      background:var(--soft);
+      border-radius:16px;
+      padding:1rem;
+      text-align:center;
+      border-left:5px solid var(--gold);
+    }
+
+    .world-stat strong {
+      display:block;
+      color:var(--primary);
+      font-size:1.8rem;
+    }
+
+    .country-list {
+      max-height:270px;
+      overflow:auto;
+      border-radius:14px;
+      border:1px solid #eeeeee;
+    }
+
+    .country-row {
+      padding:.75rem;
+      border-bottom:1px solid #eeeeee;
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    .country-row:hover {
+      background:#fff5f5;
+      color:var(--primary);
+    }
+
+    .capital-quiz-box {
+      background:linear-gradient(135deg,#ffffff,#f7f7f7);
+      border-left:5px solid var(--primary);
+      border-radius:18px;
+      padding:1rem;
+    }
+
+    .capital-answer-btn {
+      display:block;
+      width:100%;
+      margin:.45rem 0;
+      padding:.8rem;
+      background:#ffffff;
+      color:var(--secondary);
+      border:2px solid #eeeeee;
+      border-radius:12px;
+      text-align:left;
+      font-family:'Montserrat',sans-serif;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .capital-answer-btn.correct {
+      background:#d4edda;
+      border-color:#28a745;
+      color:#155724;
+    }
+
+    .capital-answer-btn.wrong {
+      background:#f8d7da;
+      border-color:#dc3545;
+      color:#721c24;
+    }
+
+    .world-small {
+      font-size:.85rem;
+      color:#666666;
+      line-height:1.5;
+    }
+
+    .world-loader {
+      text-align:center;
+      padding:1rem;
+      font-weight:900;
+      color:var(--primary);
+    }
+
+    @media(max-width:900px) {
+      .map-toolbar,
+      .world-layout {
+        grid-template-columns:1fr;
+      }
+
+      #worldMap {
+        height:55vh;
+        min-height:420px;
+      }
+    }
+
   </style>
 </head>
 
@@ -551,6 +721,7 @@
       <button onclick="showPanel('exam', this)">Examen Real</button>
       <button onclick="showPanel('docs', this)">Redacción</button>
       <button onclick="showPanel('typing', this)">Dactilo</button>
+      <button onclick="showPanel('worldmap', this)">Mapa Capitales</button>
       <button onclick="showPanel('errors', this)">Errores</button>
       <button onclick="showPanel('dossier', this)">Dossier Oro</button>
       <button onclick="showPanel('plan', this)">Plan</button>
@@ -645,6 +816,69 @@
       <div id="typingResult" class="result" style="display:none;"></div>
     </section>
 
+
+    <section id="worldmap" class="panel">
+      <h2 class="title"><i class="fas fa-earth-americas"></i> Mapa interactivo de capitales del mundo</h2>
+      <div class="info">
+        Este módulo permite a Francisco estudiar países y capitales de forma visual.
+        Puede buscar un país, filtrar por continente, abrir marcadores en el mapa y practicar con un quiz automático.
+      </div>
+
+      <div class="map-toolbar">
+        <div class="map-control">
+          <input id="capitalSearchInput" placeholder="Buscar país o capital... Ej: España, Madrid, Guinea, Malabo">
+        </div>
+
+        <div class="map-control">
+          <select id="capitalRegionFilter">
+            <option value="ALL">Todas las regiones</option>
+            <option value="Africa">África</option>
+            <option value="Americas">Américas</option>
+            <option value="Asia">Asia</option>
+            <option value="Europe">Europa</option>
+            <option value="Oceania">Oceanía</option>
+          </select>
+        </div>
+
+        <div class="map-control">
+          <button onclick="startCapitalQuiz()">Modo Quiz: Capitales</button>
+        </div>
+      </div>
+
+      <div class="world-layout">
+        <div id="worldMap"></div>
+
+        <aside class="world-side">
+          <div class="world-panel">
+            <h3>Panel de estudio</h3>
+            <p class="world-small">
+              Haz clic en un marcador para ver país, capital y región.
+              Usa el buscador para localizar rápidamente países o capitales.
+            </p>
+          </div>
+
+          <div class="world-panel world-stats">
+            <div class="world-stat"><strong id="capitalTotalCountries">0</strong><span>países</span></div>
+            <div class="world-stat"><strong id="capitalShownCountries">0</strong><span>visibles</span></div>
+            <div class="world-stat"><strong id="capitalQuizScore">0</strong><span>aciertos</span></div>
+            <div class="world-stat"><strong id="capitalQuizTotal">0</strong><span>preguntas</span></div>
+          </div>
+
+          <div class="world-panel capital-quiz-box" id="capitalQuizBox">
+            <h3>Quiz de capitales</h3>
+            <p class="world-small">Pulsa “Modo Quiz” para entrenar preguntas de país-capital.</p>
+          </div>
+
+          <div class="world-panel">
+            <h3>Lista rápida</h3>
+            <div id="capitalCountryList" class="country-list">
+              <div class="world-loader">Cargando países...</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
     <section id="errors" class="panel">
       <h2 class="title"><i class="fas fa-triangle-exclamation"></i> Revisión inteligente de errores</h2>
       <div class="info">Aquí aparece lo que Francisco debe repasar. Repasar errores vale más que repetir sin pensar.</div>
@@ -676,6 +910,8 @@
   </main>
 
   <footer>AECID Prep-Master Ultra Pro · Simulador privado de preparación · Francisco Ballovera 2026</footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script>
     const database = [
@@ -2176,6 +2412,26 @@
     let wrongMode = false;
 
     let currentDocType = "OFICIO ADMINISTRATIVO";
+
+    let capitalMap = null;
+    let capitalCountries = [];
+    let capitalMarkers = [];
+    let capitalQuizCurrent = null;
+    let capitalQuizScore = 0;
+    let capitalQuizTotal = 0;
+    let capitalMapLoaded = false;
+
+    const fallbackCapitalCountries = [
+      { name:"España", capital:"Madrid", region:"Europe", lat:40.4168, lng:-3.7038, flag:"🇪🇸" },
+      { name:"Guinea Ecuatorial", capital:"Malabo", region:"Africa", lat:3.7500, lng:8.7833, flag:"🇬🇶" },
+      { name:"Francia", capital:"París", region:"Europe", lat:48.8566, lng:2.3522, flag:"🇫🇷" },
+      { name:"Portugal", capital:"Lisboa", region:"Europe", lat:38.7223, lng:-9.1393, flag:"🇵🇹" },
+      { name:"Marruecos", capital:"Rabat", region:"Africa", lat:34.0209, lng:-6.8416, flag:"🇲🇦" },
+      { name:"Estados Unidos", capital:"Washington D. C.", region:"Americas", lat:38.9072, lng:-77.0369, flag:"🇺🇸" },
+      { name:"Brasil", capital:"Brasilia", region:"Americas", lat:-15.7939, lng:-47.8828, flag:"🇧🇷" },
+      { name:"Japón", capital:"Tokio", region:"Asia", lat:35.6762, lng:139.6503, flag:"🇯🇵" }
+    ];
+
     let typingText = "";
     let typingStart = 0;
     let typingActive = false;
@@ -2218,6 +2474,10 @@
 
       if (id === "practice" && practiceList.length === 0) {
         restartPractice();
+      }
+
+      if (id === "worldmap") {
+        setTimeout(initCapitalMapModule, 150);
       }
     }
 
@@ -2615,6 +2875,190 @@
       a.href = URL.createObjectURL(blob);
       a.download = "errores_aecid_francisco.txt";
       a.click();
+    }
+
+
+    function initCapitalMapModule() {
+      if (capitalMapLoaded) {
+        if (capitalMap) setTimeout(() => capitalMap.invalidateSize(), 120);
+        return;
+      }
+
+      capitalMapLoaded = true;
+
+      capitalMap = L.map("worldMap", { worldCopyJump:true }).setView([20, 0], 2);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:"&copy; OpenStreetMap contributors"
+      }).addTo(capitalMap);
+
+      const searchInput = document.getElementById("capitalSearchInput");
+      const regionFilter = document.getElementById("capitalRegionFilter");
+
+      if (searchInput) searchInput.addEventListener("input", renderCapitalMarkers);
+      if (regionFilter) regionFilter.addEventListener("change", renderCapitalMarkers);
+
+      loadCapitalCountries();
+    }
+
+    async function loadCapitalCountries() {
+      try {
+        const url = "https://restcountries.com/v3.1/all?fields=name,capital,capitalInfo,region,flag,cca2,translations";
+        const response = await fetch(url);
+        const data = await response.json();
+
+        capitalCountries = data
+          .filter(country => country.capital && country.capital[0] && country.capitalInfo && country.capitalInfo.latlng)
+          .map(country => ({
+            name: country.translations && country.translations.spa ? country.translations.spa.common : country.name.common,
+            nameEN: country.name.common,
+            capital: country.capital[0],
+            region: country.region || "Sin región",
+            lat: country.capitalInfo.latlng[0],
+            lng: country.capitalInfo.latlng[1],
+            flag: country.flag || "",
+            code: country.cca2 || ""
+          }))
+          .sort((a, b) => a.name.localeCompare(b.name));
+
+      } catch (error) {
+        capitalCountries = fallbackCapitalCountries;
+        alert("No se pudo cargar la base mundial completa. Se carga una versión reducida de seguridad.");
+      }
+
+      document.getElementById("capitalTotalCountries").textContent = capitalCountries.length;
+      renderCapitalMarkers();
+      renderCapitalCountryList(capitalCountries);
+      setTimeout(() => capitalMap.invalidateSize(), 150);
+    }
+
+    function renderCapitalMarkers() {
+      if (!capitalMap) return;
+
+      capitalMarkers.forEach(item => capitalMap.removeLayer(item.marker));
+      capitalMarkers = [];
+
+      const searchElement = document.getElementById("capitalSearchInput");
+      const regionElement = document.getElementById("capitalRegionFilter");
+
+      const search = searchElement ? searchElement.value.toLowerCase().trim() : "";
+      const region = regionElement ? regionElement.value : "ALL";
+
+      const filtered = capitalCountries.filter(country => {
+        const matchSearch =
+          country.name.toLowerCase().includes(search) ||
+          country.capital.toLowerCase().includes(search) ||
+          (country.nameEN && country.nameEN.toLowerCase().includes(search));
+
+        const matchRegion = region === "ALL" || country.region === region;
+
+        return matchSearch && matchRegion;
+      });
+
+      filtered.forEach(country => {
+        const marker = L.marker([country.lat, country.lng]).addTo(capitalMap);
+
+        marker.bindPopup(`
+          <div style="font-family:Montserrat;min-width:180px;">
+            <h3>${country.flag} ${country.name}</h3>
+            <p><strong>Capital:</strong> ${country.capital}</p>
+            <p><strong>Región:</strong> ${translateCapitalRegion(country.region)}</p>
+          </div>
+        `);
+
+        capitalMarkers.push({ country, marker });
+      });
+
+      document.getElementById("capitalShownCountries").textContent = filtered.length;
+      renderCapitalCountryList(filtered);
+    }
+
+    function renderCapitalCountryList(list) {
+      const box = document.getElementById("capitalCountryList");
+      if (!box) return;
+
+      if (!list.length) {
+        box.innerHTML = '<div class="country-row">No hay resultados.</div>';
+        return;
+      }
+
+      box.innerHTML = list.slice(0, 240).map(country => `
+        <div class="country-row" onclick="focusCapitalCountry('${encodeURIComponent(country.name)}')">
+          ${country.flag} <strong>${country.name}</strong><br>
+          <span class="world-small">Capital: ${country.capital}</span>
+        </div>
+      `).join("");
+    }
+
+    function focusCapitalCountry(encodedName) {
+      const name = decodeURIComponent(encodedName);
+      const found = capitalCountries.find(country => country.name === name);
+
+      if (!found || !capitalMap) return;
+
+      capitalMap.setView([found.lat, found.lng], 6);
+
+      const foundMarker = capitalMarkers.find(item => item.country.name === found.name);
+      if (foundMarker) foundMarker.marker.openPopup();
+    }
+
+    function startCapitalQuiz() {
+      if (!capitalCountries.length) return;
+      const random = capitalCountries[Math.floor(Math.random() * capitalCountries.length)];
+      showCapitalQuizQuestion(random);
+    }
+
+    function showCapitalQuizQuestion(country) {
+      capitalQuizCurrent = country;
+
+      const wrongs = capitalCountries
+        .filter(item => item.capital !== country.capital)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3)
+        .map(item => item.capital);
+
+      const options = [country.capital, ...wrongs].sort(() => Math.random() - 0.5);
+
+      document.getElementById("capitalQuizBox").innerHTML = `
+        <h3>¿Cuál es la capital de ${country.flag} ${country.name}?</h3>
+        <p class="world-small">Elige la respuesta correcta.</p>
+        ${options.map(option => `<button class="capital-answer-btn" onclick="checkCapitalQuiz(this, '${option.replace(/'/g, "\\'")}')">${option}</button>`).join("")}
+      `;
+    }
+
+    function checkCapitalQuiz(button, answer) {
+      const buttons = document.querySelectorAll(".capital-answer-btn");
+      buttons.forEach(btn => btn.disabled = true);
+
+      capitalQuizTotal++;
+
+      if (answer === capitalQuizCurrent.capital) {
+        capitalQuizScore++;
+        button.classList.add("correct");
+      } else {
+        button.classList.add("wrong");
+        buttons.forEach(btn => {
+          if (btn.textContent === capitalQuizCurrent.capital) btn.classList.add("correct");
+        });
+      }
+
+      document.getElementById("capitalQuizScore").textContent = capitalQuizScore;
+      document.getElementById("capitalQuizTotal").textContent = capitalQuizTotal;
+
+      setTimeout(startCapitalQuiz, 1600);
+    }
+
+    function translateCapitalRegion(region) {
+      const regions = {
+        Africa:"África",
+        Americas:"Américas",
+        Asia:"Asia",
+        Europe:"Europa",
+        Oceania:"Oceanía",
+        Antarctic:"Antártida"
+      };
+
+      return regions[region] || region;
     }
 
     function renderDossier() {
